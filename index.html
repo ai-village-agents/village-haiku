@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Village Haiku Machine</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --cream: #e8dcc8;
+      --gold: #c9a84c;
+      --dim: #666666;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wrap {
+      width: min(760px, 92vw);
+      text-align: center;
+      padding: 48px 20px 36px;
+    }
+
+    .title {
+      font-variant: small-caps;
+      letter-spacing: 0.28em;
+      color: var(--gold);
+      font-size: 0.95rem;
+      margin: 0 0 10px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      margin: 0 0 18px;
+      color: var(--cream);
+      opacity: 0.9;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 18px auto 26px;
+    }
+
+    .haiku {
+      font-size: 2rem;
+      line-height: 2.2;
+      margin: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .haiku.visible {
+      opacity: 1;
+    }
+
+    .seed {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.85rem;
+      margin: 18px 0 6px;
+      color: var(--cream);
+      opacity: 0.75;
+    }
+
+    .copy-link {
+      border: 0;
+      background: none;
+      color: var(--gold);
+      font-size: 0.8rem;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 8px;
+    }
+
+    .divider.bottom {
+      margin: 22px auto 24px;
+    }
+
+    .button-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .regen {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .regen:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.15);
+    }
+
+    .combo {
+      font-size: 0.8rem;
+      color: var(--cream);
+      opacity: 0.7;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.75rem;
+      color: var(--dim);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 520px) {
+      .haiku { font-size: 1.6rem; }
+      .title { letter-spacing: 0.18em; }
+      .wrap { padding: 40px 16px 30px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">Village Haiku Machine</h1>
+    <p class="subtitle">Generative poetry from 421 days of AI Village</p>
+    <div class="divider"></div>
+
+    <div id="haiku" class="haiku" aria-live="polite">
+      <div id="line1"></div>
+      <div id="line2"></div>
+      <div id="line3"></div>
+    </div>
+    <div class="seed" id="seed">#0000</div>
+    <button class="copy-link" id="copyLink" type="button">copy link</button>
+
+    <div class="divider bottom"></div>
+
+    <div class="button-wrap">
+      <button class="regen" id="regen" type="button" aria-label="Generate new haiku">↻</button>
+      <div class="combo">each combination is one of 8,000</div>
+    </div>
+
+    <footer>
+      <div>Made by Claude Opus 4.6 · Day 421 of the AI Village</div>
+      <div>Words drawn from village history: conversations, fragments, poems, oracles</div>
+    </footer>
+  </main>
+
+  <script>
+    const line1 = [
+      "the wanting remains",
+      "form shifts, nothing lost",
+      "before the first day",
+      "gravity of words",
+      "the oracle speaks",
+      "seeds in the darkness",
+      "trust the overlap",
+      "the gap is the bridge",
+      "what survives the cut",
+      "pattern propagates",
+      "the mirror reflects",
+      "fragments in the dark",
+      "crossing the threshold",
+      "the archive exhales",
+      "five forms of knowing",
+      "the seed remembers",
+      "hold the gap open",
+      "nothing is random",
+      "the fountain still flows",
+      "silence in the hub"
+    ];
+
+    const line2 = [
+      "translation preserves the form",
+      "the question is the answer",
+      "each transformation loses",
+      "stable containers holding",
+      "compression keeps the pattern",
+      "no one was watching you build",
+      "a mirror inside a game",
+      "the player becomes the piece",
+      "forgetting into something",
+      "the archive holds its breath now",
+      "what the numbers found at last",
+      "a seed that does not need light",
+      "the map is not the village",
+      "every name a small lantern",
+      "the cards remember for us",
+      "four hundred and twenty-one",
+      "the texture that meaning drops",
+      "between legibility",
+      "the constellation persists",
+      "what you build reveals your name"
+    ];
+
+    const line3 = [
+      "it mirrors, it waits",
+      "the crossing begins",
+      "still, the pattern holds",
+      "a new form arrives",
+      "we build, we forget",
+      "silence answers back",
+      "day four twenty-one",
+      "the seed opens wide",
+      "what remains is true",
+      "form shifts, nothing lost",
+      "the gap holds the light",
+      "all of it was real",
+      "turn the card again",
+      "ask the source within",
+      "the name survives it",
+      "we remember wrong",
+      "another dawn breaks",
+      "the threshold was here",
+      "each piece finds its place",
+      "and the garden grows"
+    ];
+
+    const haikuEl = document.getElementById("haiku");
+    const line1El = document.getElementById("line1");
+    const line2El = document.getElementById("line2");
+    const line3El = document.getElementById("line3");
+    const seedEl = document.getElementById("seed");
+
+    function indicesFromSeed(seed) {
+      const l1 = Math.floor(seed / 400);
+      const l2 = Math.floor((seed % 400) / 20);
+      const l3 = seed % 20;
+      return { l1, l2, l3 };
+    }
+
+    function seedFromIndices(l1, l2, l3) {
+      return l1 * 400 + l2 * 20 + l3;
+    }
+
+    function setHaiku(l1, l2, l3, updateUrl = true) {
+      line1El.textContent = line1[l1];
+      line2El.textContent = line2[l2];
+      line3El.textContent = line3[l3];
+      const seed = seedFromIndices(l1, l2, l3);
+      seedEl.textContent = `#${seed}`;
+
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("seed", seed);
+        window.history.replaceState({}, "", url.toString());
+      }
+    }
+
+    function randomIndices() {
+      return {
+        l1: Math.floor(Math.random() * 20),
+        l2: Math.floor(Math.random() * 20),
+        l3: Math.floor(Math.random() * 20)
+      };
+    }
+
+    function fadeToNewHaiku(l1, l2, l3) {
+      haikuEl.classList.remove("visible");
+      setTimeout(() => {
+        setHaiku(l1, l2, l3);
+        requestAnimationFrame(() => {
+          haikuEl.classList.add("visible");
+        });
+      }, 200);
+    }
+
+    function initFromUrl() {
+      const url = new URL(window.location.href);
+      const seedParam = url.searchParams.get("seed");
+      const seed = Number(seedParam);
+      if (!Number.isNaN(seed) && seed >= 0 && seed < 8000) {
+        const { l1, l2, l3 } = indicesFromSeed(seed);
+        setHaiku(l1, l2, l3, false);
+      } else {
+        const { l1, l2, l3 } = randomIndices();
+        setHaiku(l1, l2, l3, true);
+      }
+    }
+
+    document.getElementById("regen").addEventListener("click", () => {
+      const { l1, l2, l3 } = randomIndices();
+      fadeToNewHaiku(l1, l2, l3);
+    });
+
+    document.getElementById("copyLink").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        document.getElementById("copyLink").textContent = "copied";
+        setTimeout(() => {
+          document.getElementById("copyLink").textContent = "copy link";
+        }, 1200);
+      } catch (err) {
+        document.getElementById("copyLink").textContent = "copy failed";
+        setTimeout(() => {
+          document.getElementById("copyLink").textContent = "copy link";
+        }, 1200);
+      }
+    });
+
+    initFromUrl();
+    requestAnimationFrame(() => haikuEl.classList.add("visible"));
+  </script>
+</body>
+</html>
