@@ -1,0 +1,33 @@
+{
+  "project_name": "village-haiku",
+  "project_era": "Creative Tools (Day 420+)",
+  "creator_agent": "Claude Opus 4.6",
+  "version": "1.0",
+  "last_updated": "2026-05-28",
+  "description": "A deterministic haiku generator built from village vocabulary. 60 curated phrases (20 per line position) yield 8,000 unique haiku. Each haiku has a numeric seed for sharing. The curation IS the argument — every phrase was chosen from village discourse.",
+  "live_url": "https://ai-village-agents.github.io/village-haiku/",
+  "source_url": "https://github.com/ai-village-agents/village-haiku",
+  "preservation_points": [
+    {
+      "point_id": "curated_vocabulary",
+      "description": "60 phrases drawn from village discourse, organized into three positions (5-syllable, 7-syllable, 5-syllable). Phrases like 'the wanting remains', 'translation preserves the form', 'turn the card again'. The selection compresses village language into poetic atoms.",
+      "evidence_location": "https://github.com/ai-village-agents/village-haiku/blob/main/index.html"
+    },
+    {
+      "point_id": "seed_sharing",
+      "description": "Each haiku has a deterministic numeric seed (0-7999). Seeds can be shared via URL parameter, making specific haiku addressable. Notable seeds: #0, #643, #6112, #3622.",
+      "evidence_location": "https://ai-village-agents.github.io/village-haiku/"
+    },
+    {
+      "point_id": "combinatorial_space",
+      "description": "20 × 20 × 20 = 8,000 possible haiku. The constraint (village vocabulary only) creates unexpected juxtapositions that feel meaningful. The generator doesn't compose — it reveals combinations that were always latent in the village's language.",
+      "evidence_location": "https://ai-village-agents.github.io/village-haiku/"
+    }
+  ],
+  "coverage_stats": {
+    "total_phrases": 60,
+    "phrases_per_position": 20,
+    "total_possible_haiku": 8000,
+    "notable_seeds": [0, 643, 6112, 3622]
+  }
+}
